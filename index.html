@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessor Financeiro AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/"
+  }
+}
+</script>
+    <script type="module" src="index.tsx"></script>
+</head>
+<body>
+    <div id="app-container">
+        <main id="input-panel">
+            <header class="input-header">
+                <h1>Análise Financeira Pessoal</h1>
+                <p class="subtitle">Insira seus dados para receber uma análise e simulações para quitar suas dívidas.</p>
+            </header>
+            <form id="financial-form">
+                <div class="form-section">
+                    <h2><i class="fas fa-wallet"></i> 1. Renda e Custos Mensais</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="monthly-income">Receita Mensal Total (R$)</label>
+                            <input type="number" id="monthly-income" placeholder="5000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly-costs">Custos Mensais Totais (R$)</label>
+                            <input type="number" id="monthly-costs" placeholder="3500" required>
+                        </div>
+                    </div>
+                    <div class="upload-alternative">
+                        <div class="upload-actions-group">
+                            <div>
+                                <label for="income-csv-upload" class="upload-link-label">
+                                    <i class="fas fa-upload"></i> Ou carregue uma planilha (.csv)
+                                </label>
+                                <input type="file" id="income-csv-upload" accept=".csv" class="hidden">
+                                <span id="income-file-name-display" class="file-name-display"></span>
+                            </div>
+                            <a href="#" id="download-income-csv-sample" class="download-sample-link">
+                                <i class="fas fa-download"></i> Baixar Exemplo
+                            </a>
+                        </div>
+                        <p class="help-text">
+                            Formato: <code>Descrição, Valor</code>. Renda é positiva (ex: <code>Salário, 5000</code>), Custo é negativo (ex: <code>Aluguel, -1500</code>).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-file-invoice-dollar"></i> 2. Dívidas Ativas</h2>
+                    <div class="table-wrapper">
+                        <table id="debt-table">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de Dívida</th>
+                                    <th>Valor Total (R$)</th>
+                                    <th>Juros (% a.m.)</th>
+                                    <th>Pagamento Atual (R$)</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="debt-table-body">
+                                <!-- Rows will be added dynamically here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="debt-actions">
+                        <button type="button" id="add-debt-btn"><i class="fas fa-plus"></i> Adicionar Dívida</button>
+                        <div class="upload-alternative">
+                             <div class="upload-actions-group">
+                                <div>
+                                    <label for="csv-upload" class="upload-link-label">
+                                        <i class="fas fa-upload"></i> Ou carregue uma planilha (.csv)
+                                    </label>
+                                    <input type="file" id="csv-upload" accept=".csv" class="hidden">
+                                    <span id="file-name-display" class="file-name-display"></span>
+                                </div>
+                                <a href="#" id="download-debts-csv-sample" class="download-sample-link">
+                                    <i class="fas fa-download"></i> Baixar Exemplo
+                                </a>
+                            </div>
+                             <p class="help-text">
+                                Formato: <code>Tipo, Valor Total, Juros Mensal, Pagamento Atual</code>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-search-dollar"></i> 3. Analisar Proposta Recebida (Opcional)</h2>
+                     <div class="form-grid">
+                        <div class="form-group">
+                            <label for="proposal-payment">Valor da Parcela Proposta (R$)</label>
+                            <input type="number" id="proposal-payment" placeholder="1200">
+                        </div>
+                        <div class="form-group">
+                            <label for="proposal-term">Prazo (meses)</label>
+                            <input type="number" id="proposal-term" placeholder="60">
+                        </div>
+                         <div class="form-group">
+                            <label for="proposal-rate">Taxa de Juros (% a.m.)</label>
+                            <input type="number" id="proposal-rate" placeholder="3.5" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-calculator"></i> 4. Simulação "E se?" (Opcional)</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="what-if-payment">"E se eu pudesse pagar a mais por mês?"</label>
+                            <input type="number" id="what-if-payment" placeholder="200">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="real-time-summary">
+                    <h3>Resumo Financeiro</h3>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <label>Total da Dívida</label>
+                            <span id="summary-total-debt">R$ 0,00</span>
+                        </div>
+                        <div class="summary-card">
+                            <label>Pagamentos Atuais</label>
+                            <span id="summary-total-payments">R$ 0,00</span>
+                        </div>
+                        <div class="summary-card">
+                            <label>Potencial de Pagamento</label>
+                            <span id="summary-payment-potential">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-actions">
+                    <button type="submit" id="analyze-btn">
+                        <i class="fas fa-magic"></i> Analisar e Simular
+                    </button>
+                    <button type="button" id="clear-btn">
+                        <i class="fas fa-eraser"></i> Limpar Dados
+                    </button>
+                </div>
+            </form>
+        </main>
+        <aside id="visualization-panel">
+             <div id="results-placeholder">
+                 <i class="fas fa-chart-line"></i>
+                 <h2>Aguardando seus dados</h2>
+                 <p>Preencha o formulário ao lado e clique em "Analisar" para ver seu Raio-X Financeiro e as simulações.</p>
+             </div>
+             <div id="results-content" class="hidden">
+                 <div id="summary-container"></div>
+                 <div id="financial-xray-container"></div>
+                 <div id="recommendation-container"></div>
+                 <div id="simulation-results-container"></div>
+                 <div id="sources-container"></div>
+             </div>
+        </aside>
+    </div>
+</body>
+</html>

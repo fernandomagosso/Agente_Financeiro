@@ -1,0 +1,641 @@
+:root {
+    --bg-color: #1a1a1a;
+    --surface-color: #2c2c2c;
+    --primary-color: #4A90E2;
+    --text-color: #E0E0E0;
+    --text-secondary-color: #B0B0B0;
+    --border-color: #444;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --highlight-color: rgba(74, 144, 226, 0.15);
+    --font-family: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 1400px;
+    max-height: 100vh;
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Input Panel */
+#input-panel {
+    flex: 1;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.input-header h1 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.input-header .subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary-color);
+    margin-bottom: 2.5rem;
+}
+
+#financial-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-section h2 {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.form-section h2 i {
+    color: var(--primary-color);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary-color);
+}
+
+#financial-form input[type="number"], 
+#financial-form input[type="text"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: #3a3a3a;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-family: var(--font-family);
+}
+
+#financial-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+/* File Upload & Download */
+.upload-alternative {
+    margin-top: 1rem;
+}
+
+.upload-actions-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+}
+
+.upload-link-label {
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.upload-link-label:hover {
+    text-decoration: underline;
+}
+
+.download-sample-link {
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.download-sample-link:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+
+.file-name-display {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary-color);
+}
+
+.upload-alternative .help-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary-color);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+}
+
+.upload-alternative .help-text code {
+    background-color: var(--bg-color);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+/* Correctly hide file inputs while keeping them functional */
+.hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+
+/* Debt Table */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+#debt-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#debt-table th {
+    text-align: left;
+    padding: 0.5rem 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary-color);
+    font-weight: 500;
+}
+
+#debt-table td {
+    padding: 0.25rem;
+}
+
+#debt-table input {
+    width: 100%;
+}
+
+#debt-table th:last-child, #debt-table td:last-child {
+    text-align: center;
+}
+
+.remove-debt-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.remove-debt-btn:hover {
+    color: var(--danger-color);
+}
+
+.debt-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.debt-actions .upload-alternative {
+    margin-top: 0;
+    text-align: right;
+}
+
+.debt-actions .upload-alternative .help-text {
+    padding-left: 0; /* No indent for right-aligned text */
+}
+
+#add-debt-btn {
+    background-color: transparent;
+    border: 1px dashed var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: flex-start;
+}
+
+#add-debt-btn:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+    border-style: solid;
+}
+
+.main-actions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#analyze-btn, #clear-btn {
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#analyze-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+#analyze-btn:hover {
+    background-color: #62a0e8;
+}
+
+#analyze-btn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+#clear-btn {
+    background-color: var(--surface-color);
+    color: var(--text-secondary-color);
+    border: 1px solid var(--border-color);
+}
+
+#clear-btn:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+
+/* Real-time Summary */
+#real-time-summary {
+    background-color: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+#real-time-summary h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--text-secondary-color);
+    font-weight: 500;
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.summary-card {
+    text-align: center;
+}
+
+.summary-card label {
+    font-size: 0.85rem;
+    color: var(--text-secondary-color);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.summary-card span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Visualization Panel */
+#visualization-panel {
+    flex-basis: 45%;
+    max-width: 45%;
+    padding: 2.5rem 2rem;
+    background-color: var(--bg-color);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#results-placeholder {
+    text-align: center;
+    color: var(--text-secondary-color);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#results-placeholder i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    opacity: 0.5;
+}
+
+#results-placeholder h2 {
+    font-size: 1.5rem;
+}
+
+#results-content > div {
+    margin-bottom: 2.5rem;
+}
+#results-content > div:last-child {
+    margin-bottom: 0;
+}
+
+.results-section-title {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+/* Summary & Recommendation */
+#summary-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary-color);
+}
+
+#recommendation-container {
+    background-color: var(--highlight-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+#recommendation-container h3 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#recommendation-container p {
+    line-height: 1.6;
+    color: var(--text-secondary-color);
+}
+
+/* X-Ray */
+.xray-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.xray-card {
+    background-color: var(--surface-color);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.xray-card h3 {
+    font-size: 0.9rem;
+    color: var(--text-secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.xray-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.xray-card.positive p { color: var(--success-color); }
+.xray-card.negative p { color: var(--danger-color); }
+
+/* Comparison Chart */
+#comparison-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.chart-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+.chart-label {
+    font-size: 0.85rem;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chart-bar-container {
+    background-color: var(--surface-color);
+    border-radius: 4px;
+    padding: 2px;
+}
+.chart-bar {
+    background-color: var(--primary-color);
+    height: 24px;
+    border-radius: 2px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    white-space: nowrap;
+}
+.chart-bar.best {
+    background-color: var(--success-color);
+}
+.chart-bar.current {
+    background-color: var(--warning-color);
+}
+
+/* Results Table */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.results-table th, .results-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.results-table th {
+    font-size: 0.85rem;
+    color: var(--text-secondary-color);
+}
+
+.results-table td strong {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.results-table td strong i {
+    color: #f0c419; /* Star color */
+    font-size: 0.8em;
+    margin-left: 0.25rem;
+}
+
+
+.results-table td small {
+    color: var(--text-secondary-color);
+    font-size: 0.85rem;
+}
+
+.results-table td small a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.results-table td small a:hover {
+    text-decoration: underline;
+}
+
+.results-table .user-proposal-row {
+    background-color: var(--highlight-color);
+    border-left: 3px solid var(--primary-color);
+}
+
+
+.rate-comparison {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.rate-comparison.better { color: var(--success-color); }
+.rate-comparison.worse { color: var(--danger-color); }
+
+/* Sources */
+#sources-container ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+#sources-container li {
+    margin-bottom: 0.5rem;
+}
+#sources-container a {
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+#sources-container a:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+}
+#sources-container a i {
+    margin-right: 0.5rem;
+}
+
+.whatsapp-share {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--success-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.whatsapp-share i {
+    margin-right: 0.5rem;
+}
+
+.whatsapp-share:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 1024px) {
+    #app-container {
+        flex-direction: column;
+        max-height: none;
+        height: auto;
+    }
+    #input-panel {
+        border-right: none;
+    }
+    #visualization-panel {
+        max-width: 100%;
+        border-top: 1px solid var(--border-color);
+        min-height: 400px;
+    }
+    .xray-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    #input-panel, #visualization-panel {
+        padding: 1.5rem 1rem;
+    }
+    .form-grid, .summary-cards {
+        grid-template-columns: 1fr;
+    }
+    .main-actions {
+        grid-template-columns: 1fr;
+    }
+    .input-header h1 {
+        font-size: 1.5rem;
+    }
+    .input-header .subtitle {
+        margin-bottom: 1.5rem;
+    }
+    .chart-row {
+        grid-template-columns: 80px 1fr;
+    }
+}
